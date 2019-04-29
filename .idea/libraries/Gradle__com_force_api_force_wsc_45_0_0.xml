@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.force.api:force-wsc:45.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.force.api/force-wsc/45.0.0/35ae2e85c1182a8b592de2c51ba2cdcb90ff2baf/force-wsc-45.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.force.api/force-wsc/45.0.0/96e774435c5c764f03fd1cb6e552ded86d0ef12/force-wsc-45.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

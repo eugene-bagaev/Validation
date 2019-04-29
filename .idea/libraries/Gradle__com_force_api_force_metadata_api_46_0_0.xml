@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.force.api:force-metadata-api:46.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.force.api/force-metadata-api/46.0.0/5058802c96a04aa8f845f409cf7c2d0f9dad4950/force-metadata-api-46.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.force.api/force-metadata-api/46.0.0/812f795c98a049a1015b8bea6dbcdaf6441c8b1b/force-metadata-api-46.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: kz.idsoftware.sforce:sforce-tooling-api:35.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/kz.idsoftware.sforce/sforce-tooling-api/35.0/206c1cde27d2addfa2dd2d2054d6e5b964f792f9/sforce-tooling-api-35.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/kz.idsoftware.sforce/sforce-tooling-api/35.0/8e14e0d4400689fb57bcbc31877aaa8d1081a075/sforce-tooling-api-35.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
