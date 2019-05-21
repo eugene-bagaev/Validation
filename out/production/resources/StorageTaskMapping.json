@@ -1,1 +1,1 @@
-[{"sObjectTasks":[{"name":"Product__c","label":"Product","fieldsRule":[{"name":"Description__c","keyValue":[{"key":"label","value":"Description"}]}],"validationRule":[{"name":"validate","keyValue":[{"key":"active","value":"true"}]}]}],"apexPageTasks":[],"apexClassTasks":[],"triggerTasks":[],"testTasks":[]}]
+[{"sObjectTasks":[{"name":"aaaaaaaaaa","label":"dsadasd","fieldsRule":[],"validationRule":[]}],"apexPageTasks":[],"apexClassTasks":[],"triggerTasks":[],"testTasks":[]}]
