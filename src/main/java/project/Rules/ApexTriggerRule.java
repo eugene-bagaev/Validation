@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApexTriggerRule implements Rule {
-    String triggerName;
-    TriggerInfoWraper triggerInfo;
+    public String triggerName;
+    public TriggerInfoWraper triggerInfo;
 
     public ApexTriggerRule(String triggerName, TriggerInfoWraper triggerInfo) {
         this.triggerName = triggerName;

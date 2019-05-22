@@ -5,6 +5,7 @@ public class Results {
     public String nameMetadata;
     public String status;
     public String message;
+    public String file;
 
     public Results (String nameMetadata, String message, Boolean status){
         this.nameMetadata = nameMetadata;
@@ -15,4 +16,17 @@ public class Results {
             this.status = "ERROR";
         }
     }
+
+    public Results (String nameMetadata, String message, Boolean status, String file ){
+        this.nameMetadata = nameMetadata;
+        this.message = message;
+        this.file = file;
+        if(status){
+            this.status = "SUCCESS";
+        } else {
+            this.status = "ERROR";
+        }
+    }
+
+
 }

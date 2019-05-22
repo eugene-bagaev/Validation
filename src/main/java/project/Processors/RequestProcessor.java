@@ -34,9 +34,10 @@ public class RequestProcessor {
     public Map<String, List<Results>> getUsersInfo() {
         userResults = new HashMap<>();
         Stream<String> creds = Arrays.stream(users.split(";"));
-        TaskMapping.generatePackageXML();
+//        TaskMapping.generatePackageXML();
+        TaskMapping taskMap = new TaskMapping("DEFAUT");
         creds.parallel().forEach(value -> {
-            SalesforceHepler helper = new SalesforceHepler(value, GoogleHelper.userCreds.get(value), userResults);
+            SalesforceHepler helper = new SalesforceHepler(value, GoogleHelper.userCreds.get(value), userResults, taskMap);
             helper.processUser();
 
         });

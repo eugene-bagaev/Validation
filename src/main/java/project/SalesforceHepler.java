@@ -35,12 +35,13 @@ public class SalesforceHepler {
     private Map<String, List<Results>> userResults;
 
     public static String zip_file_for_read = "";
-    private static Map<String, Rule> mapping = TaskMapping.METADATA_CHECK;
+    public TaskMapping mapping;
 
-    public SalesforceHepler(String username, String password, Map<String, List<Results>> userResults) {
+    public SalesforceHepler(String username, String password, Map<String, List<Results>> userResults, TaskMapping taskMap) {
         this.tempUsername = username;
         this.tempPassword = password;
         this.userResults = userResults;
+        this.mapping = taskMap;
     }
 
     public void processUser() {
@@ -59,56 +60,67 @@ public class SalesforceHepler {
 
 
     private List<Results> checkZipFile() {
-
         List<Results> results = new ArrayList<>();
+
         try {
             ZipFile file = new ZipFile(zip_file_for_read);
 
-            for (String item : TaskMapping.tasks) {
-                Enumeration< ? extends ZipEntry > e = file.entries();
-                boolean fileFound = false;
-                while (e.hasMoreElements()) {
-                    ZipEntry entry = e.nextElement();
-                    if (entry.getName().contains("/" + item) && !entry.getName().contains(".xml")) {
-                        fileFound = true;
-                        BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(entry)));
-                        String allFile = "";
-                        String theFile = "";
-                        String line = null;
-                        while ((line = br.readLine()) != null){
-                            allFile = allFile + line;
-                            theFile += "<br/>" + line.replaceAll(" ", "&nbsp;")
-                                    .replaceAll("<", "&lt").replaceAll(">", "&gt;");
+// sobiraem taski
+            for (String item : mapping.nameTask_mapResults.keySet()) {
+
+//                List<Results> results = new ArrayList<>();
+                Map<String, Rule> rules =  mapping.nameTask_mapResults.get(item);
+                for (String nameMeta :rules.keySet()){
+                    Enumeration< ? extends ZipEntry > e = file.entries();
+                    boolean fileFound = false;
+                    while (e.hasMoreElements()) {
+                        ZipEntry entry = e.nextElement();
+                        if (entry.getName().contains("/" + nameMeta + ".") && !entry.getName().contains(".xml")) {
+                            fileFound = true;
+                            BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(entry)));
+                            String allFile = "";
+                            String theFile = "";
+                            String line = null;
+                            while ((line = br.readLine()) != null){
+                                allFile = allFile + line;
+                                theFile += "<br/>" + line.replaceAll(" ", "&nbsp;")
+                                        .replaceAll("<", "&lt").replaceAll(">", "&gt;");
+                            }
+                            System.out.println(nameMeta);
+                            System.out.println(tempUsername);
+                            System.out.println(allFile);
+                            if (!addFileToContainer(tempUsername, nameMeta, theFile)) {
+                                RequestProcessor.files.add(new FileStorage(nameMeta, tempUsername, theFile));
+                            }
+                            results.addAll(rules.get(nameMeta).checkCondition(allFile, this.tempUsername));
+                            break;
                         }
-                        System.out.println(item);
-                        System.out.println(tempUsername);
-                        System.out.println(allFile);
-                        if (!addFileToContainer(tempUsername, item, theFile)) {
-                            RequestProcessor.files.add(new FileStorage(item, tempUsername, theFile));
+                    }
+                    if (!fileFound){
+                        if (item.contains("Test")){
+                            results.add(new Results("Test", MessageFormat.format(templateNotFoundFile, item), false));
+                        } else {
+                            results.add(new Results(item, MessageFormat.format(templateNotFoundFile, item), false));
                         }
-                        results.addAll(mapping.get(item).checkCondition(allFile, this.tempUsername));
-                        break;
                     }
-                }
-                // not found file
-                if (!fileFound){
-                    if (item.contains("Test")){
-                        results.add(new Results("Test", MessageFormat.format(templateNotFoundFile, item), false));
-                    } else {
-                        results.add(new Results(item, MessageFormat.format(templateNotFoundFile, item), false));
-                    }
+
                 }
             }
+//            UserInfoWrapper  userWrap = new UserInfoWrapper()
 
         } catch (IOException ex) {
             System.out.println("ioEx.SFHelper.readZip: " + ex.getMessage());
         }
-        for (Results res : results) {
-            System.out.println(">>> " + res.status + " " + res.nameMetadata + " " +  res.message);
-        }
-        userResults.put(tempUsername, results);
+       // RequestProcessor.getMapValue(tempUsername, userResults).setResults(results);
         return results;
+
     }
+
+
+
+
+
+
 
     private Boolean addFileToContainer(String owner, String fileName, String fileContent) {
         for (int i = 0; i < RequestProcessor.files.size(); i ++) {

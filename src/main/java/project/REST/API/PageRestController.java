@@ -80,7 +80,7 @@ public class PageRestController {
     @PostMapping("/refreshTaskMapping")
     public void refreshTaskMapping() {
 
-        TaskMapping.loadTaskMapping();
+//        TaskMapping.loadTaskMapping();
         System.out.println("loadTaskMapping " );
     }
 }

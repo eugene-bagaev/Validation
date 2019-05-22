@@ -77,7 +77,7 @@ public class TestRule implements Rule {
                             } else {
                                 res.add(new Results("Test", MessageFormat.format(Constants.TEST_SUCCESS,  testCl, percentCoverage), true));
                             }
-                            System.out.println(debugThreadName + ": >> Test Result For Class: " + TaskMapping.TEST_CLASSES.get(testCl));
+                            System.out.println(debugThreadName + ": >> Test Result For Class: " + this.CoveregeClass);
                             System.out.println(debugThreadName + ": >> Coverage: " + (ccr.getNumLocations() - ccr.getNumLocationsNotCovered()) + " of " + ccr.getNumLocations()
                             );
                         }
