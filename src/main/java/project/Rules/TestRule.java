@@ -25,9 +25,9 @@ public class TestRule implements Rule {
 
     public List<Results> checkCondition(String file, String userName) {
         List<Results> results = new ArrayList<>();
-        if (    Util.checkNesting(file, "System.assert") > 1 ||
-                Util.checkNesting(file, "System.assertEquals") > 1 ||
-                Util.checkNesting(file, "System.assertNotEquals") > 1 ) {
+        if (    Util.checkMoreThanNesting(file, "System.assert", 1) ||
+                Util.checkMoreThanNesting(file, "System.assertEquals", 1) ||
+                Util.checkMoreThanNesting(file, "System.assertNotEquals", 1)) {
             results.add(new Results(this.TestClass, MessageFormat.format(Constants.TEST_SUCCESS_ASSERT,  this.TestClass), true));
         } else {
             results.add(new Results(this.TestClass,  MessageFormat.format(Constants.TEST_FAIL_ASSERT,  this.TestClass), false));

@@ -26,7 +26,10 @@ public class ApexClassRule implements  Rule {
         this.username = userName;
         List<Results> results = new ArrayList<>();
         for (String method : methodsForSearch) {
-            if (Util.checkNesting(file, method) == 1) {
+            for (Integer i : Util.checkNesting(file, method)) {
+                System.out.println(i);
+            }
+            if (Util.checkOnlyNesting(file, method, 1)) {
                 results.add(new Results(nameClass, MessageFormat.format(Constants.APEXCLASS_FOUND_METHOD, nameClass, method), true));
             } else {
                 results.add(new Results(nameClass, MessageFormat.format(Constants.APEXCLASS_NOT_FOUND_METHOD, nameClass, method), false));
