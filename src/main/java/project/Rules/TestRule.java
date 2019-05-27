@@ -67,7 +67,7 @@ public class TestRule implements Rule {
                     Boolean testRun = false;
                     for (CodeCoverageResult ccr : result.getCodeCoverage()) {
 
-                        if (CoveregeCl.equals(ccr.getName())) {
+                        if (CoveregeCl.equalsIgnoreCase(ccr.getName())) {
 
 //                        if (TaskMapping.TEST_CLASSES.get(nameTestClass).equals(ccr.getName())) {
                             testRun = true;
@@ -83,7 +83,7 @@ public class TestRule implements Rule {
                         }
                     }
 
-                    if(!testRun) res.add(new Results(this.TestClass, MessageFormat.format(Constants.TEST_NOT_FOUND,  testCl), false));
+                    if(!testRun) res.add(new Results(this.TestClass, MessageFormat.format(Constants.TEST_FAILED_MESSAGE,  testCl), false));
 
 //                }
             } else{
