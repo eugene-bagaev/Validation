@@ -53,6 +53,7 @@ public class SalesforceHepler {
                     boolean fileFound = false;
                     while (e.hasMoreElements()) {
                         ZipEntry entry = e.nextElement();
+
                         if (entry.getName().contains("/" + nameMetadata + ".") && !entry.getName().contains(".xml")) {
                             fileFound = true;
                             BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(entry)));

@@ -64,26 +64,25 @@ public class TestRule implements Rule {
 
             if (result.getCodeCoverage() != null) {
 
-                    Boolean testRun = false;
-                    for (CodeCoverageResult ccr : result.getCodeCoverage()) {
-
-                        if (CoveregeCl.equalsIgnoreCase(ccr.getName())) {
+                Boolean testRun = false;
+                for (CodeCoverageResult ccr : result.getCodeCoverage()) {
+                    if (CoveregeCl.equalsIgnoreCase(ccr.getName())) {
 
 //                        if (TaskMapping.TEST_CLASSES.get(nameTestClass).equals(ccr.getName())) {
-                            testRun = true;
-                            Integer percentCoverage = checkCoverage((ccr.getNumLocations() - ccr.getNumLocationsNotCovered()), ccr.getNumLocations());
-                            if(percentCoverage < 75){
-                                res.add(new Results(this.TestClass, MessageFormat.format(Constants.TEST_SUCCESS_BUT_NOT_ENOUGH_COVERAGE, testCl, percentCoverage), false));
-                            } else {
-                                res.add(new Results(this.TestClass, MessageFormat.format(Constants.TEST_SUCCESS,  testCl, percentCoverage), true));
-                            }
-                            System.out.println(debugThreadName + ": >> Test Result For Class: " + TestClass);
-                            System.out.println(debugThreadName + ": >> Coverage: " + (ccr.getNumLocations() - ccr.getNumLocationsNotCovered()) + " of " + ccr.getNumLocations()
-                            );
+                        testRun = true;
+                        Integer percentCoverage = checkCoverage((ccr.getNumLocations() - ccr.getNumLocationsNotCovered()), ccr.getNumLocations());
+                        if(percentCoverage < 75){
+                            res.add(new Results(this.TestClass, MessageFormat.format(Constants.TEST_SUCCESS_BUT_NOT_ENOUGH_COVERAGE, testCl, percentCoverage), false));
+                        } else {
+                            res.add(new Results(this.TestClass, MessageFormat.format(Constants.TEST_SUCCESS,  testCl, percentCoverage), true));
                         }
+                        System.out.println(debugThreadName + ": >> Test Result For Class: " + TestClass);
+                        System.out.println(debugThreadName + ": >> Coverage: " + (ccr.getNumLocations() - ccr.getNumLocationsNotCovered()) + " of " + ccr.getNumLocations()
+                        );
                     }
+                }
 
-                    if(!testRun) res.add(new Results(this.TestClass, MessageFormat.format(Constants.TEST_FAILED_MESSAGE,  testCl), false));
+                if(!testRun) res.add(new Results(this.TestClass, MessageFormat.format(Constants.TEST_FAILED_MESSAGE,  testCl), false));
 
 //                }
             } else{
