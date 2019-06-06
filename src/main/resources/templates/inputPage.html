@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <script type="text/javascript">
+        var checkedUsers = [];
+        function removeOrAddUser(elemId, value) {
+            if (value) {
+                if (!checkedUsers.includes(elemId)) {
+                    checkedUsers.push(elemId);
+                }
+            } else {
+                if (checkedUsers.includes(elemId)) {
+                    checkedUsers = checkedUsers.filter(elem => elem != elemId);
+                }
+            }
+            setButtonState();
+        }
+
+        function test() {
+            const Http = new XMLHttpRequest();
+            const url='/test';
+            Http.open("POST", url);
+            Http.send(checkedUsers.join(";"));
+            Http.onreadystatechange=(e)=>{
+                var results = JSON.parse(Http.responseText);
+            }
+        }
+
+
+        function showResults() {
+            const Http = new XMLHttpRequest();
+            const url='/usersInfo';
+            Http.open("POST", url);
+            Http.send(checkedUsers.join(";"));
+            Http.onreadystatechange=(e)=>{
+                var results = JSON.parse(Http.responseText);
+                let tables = '<div style="padding:20px;">';
+                tables += '<table class="table table-striped info-table">';
+                tables += '<thead style="background-color:lightblue">' +
+                '<tr>' +
+                    '<th scope="col">#</th>' +
+                    '<th scope="col">Metadata file</th>' +
+                    '<th scope="col">Status</th>' +
+                    '<th scope="col">Message</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody>';
+                for (let i in results) {
+                    tables += '<tr style="background-color:lightblue"><td>' + i + '</td><td></td><td></td><td></td></tr>';
+                    results[i].forEach((elem, i) => {
+                        tables += '<tr><td>' + (i + 1) + '</td>';
+                        tables += '<td>' + elem.nameMetadata + '</td>';
+                        tables += '<td>' + elem.status + '</td>';
+                        tables += '<td>' + elem.message + '</td></tr>';
+                    });
+                }
+                tables += '</tbody></table></div>';
+                document.getElementById("results").innerHTML = tables;
+            }
+        }
+
+        function setButtonState() {
+            if(checkedUsers.length == 0) {
+                document.getElementById("showButton").disabled = true;
+            } else {
+                document.getElementById("showButton").disabled = false;
+            }
+        }
+
+    </script>
+    <style>
+        .buttons {
+            padding: 20px;
+            text-align: right;
+        }
+        .header{
+            background-color: lightblue;
+            text-align: center;
+            position: sticky;
+            color: black;
+            height: 100px;
+        }
+
+        .info-table {
+            overflow: hidden;
+            border-radius: 7px;
+            box-shadow: 0 0 10px 0;
+        }
+    </style>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="header">
+    <h1 style="font-size: 500%; font-family:cursive">Task Checker</h1>
+</div>
+<div style="padding:20px;">
+    <table class="table table-striped info-table">
+        <thead style="background-color:lightblue">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Select user</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Password</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="creds,iter : ${userCredentials}">
+            <tr>
+                <td><span th:text="${iter.count}"></span></td>
+                <td>
+                    <input type="checkbox" th:id="${creds.userName}" onclick="removeOrAddUser(this.id, this.checked)"/>
+                </td>
+                <td>
+                    <a th:href="'https://login.salesforce.com/?un=' + ${creds.userName} + '&pw=' + ${creds.password}">
+                        <div th:text="${creds.userName}"></div>
+                    </a>
+                </td>
+                <td th:text="${creds.password}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<div class="buttons">
+    <button type="button" class="btn btn-info"
+            id="showButton" disabled="true" onclick="showResults()">
+        Show Info for selected users
+    </button>
+</div>
+
+
+<button type="button" class="btn btn-info" onclick="test()">
+    TEST
+</button>
+
+<form method="post" action="url">
+    <input type="submit" value="redirect to VF"/>
+</form>
+
+<form method="post" action="runCode">
+    <textarea  name="runCode" style="width: 500px; height: 100px">
+        List &lt;Contact&gt;cons = [SELECT Id,Name FROM Contact];
+        System.debug(cons.size());
+        System.debug(JSON.serialize(cons));
+    </textarea>
+    <input type="submit" value="runCode with return logs"/>
+</form>
+
+<form method="post" action="apexClass">
+    <textarea  name="text" style="width: 500px; height: 100px">
+    public class Messages {
+        public static string SayHello() {
+             return 'Hello';
+        }
+    }
+    </textarea>
+    <input type="submit" value="create Apex Class"/>
+</form>
+
+<form method="post" action="query">
+    <textarea  name="query" style="width: 500px">SELECT Id,Name FROM Contact</textarea>
+    <input type="submit" value="run query"/>
+</form>
+<div th:text="${results}"></div>
+
+<div id="results"></div>
+</body>
+</html>
