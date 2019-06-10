@@ -48,16 +48,16 @@ public class VisualforcePageRule implements Rule {
 //         System.out.println(text.isEmpty());
             if(text.isEmpty()){
                 // not find teg
-                 results.add(new Results(this.nameFile,  MessageFormat.format(Constants.VF_NOT_FOUND_TAG, this.nameFile, resTag),  false));
+                 results.add(new Results(this,  MessageFormat.format(Constants.VF_NOT_FOUND_TAG, this.nameFile, resTag),  false));
                 return results;
             }
             for (String searchVal :values){
                 long count = text.stream().filter(e -> e.toLowerCase().contains(searchVal.toLowerCase())).count();
                 System.out.println(count);
                 if (count == 0)  {
-                    results.add(new Results(this.nameFile,  MessageFormat.format(Constants.VF_NOT_FOUND_VALUE_IN_TAG, this.nameFile, resTag, searchVal),  false));
+                    results.add(new Results(this,  MessageFormat.format(Constants.VF_NOT_FOUND_VALUE_IN_TAG, this.nameFile, resTag, searchVal),  false));
                 } else {
-                    results.add(new Results(this.nameFile,  MessageFormat.format(Constants.VF_FOUND_VALUE_IN_TAG, this.nameFile, resTag, searchVal),true));
+                    results.add(new Results(this,  MessageFormat.format(Constants.VF_FOUND_VALUE_IN_TAG, this.nameFile, resTag, searchVal),true));
                 }
             }
 
